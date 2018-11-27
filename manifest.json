@@ -14,10 +14,12 @@
     "storage",
     "notifications",
     "webRequest",
+    "webRequestBlocking",
     "tabs",
     "activeTab",
     "storage",
     "<all_urls>",
-    "http://localhost:4000/"
+    "http://localhost:4000/",
+    "http://localhost:4567/"
   ]
 }
