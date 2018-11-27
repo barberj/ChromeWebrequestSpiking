@@ -1,21 +1,25 @@
 console.log('Hellow ext');
 
+formatHeaders = async function(details) {
+  console.log("Format Headers");
+  let person = await fetch('https://swapi.co/api/people/2').
+    then(person => person.json());
+
+  for (var i = 0; i < details.requestHeaders.length; ++i) {
+    if (details.requestHeaders[i].name === 'User-Agent') {
+      details.requestHeaders.splice(i, 1);
+      break;
+    }
+  }
+
+  details.requestHeaders.push({name: 'User-Agent', value: person.name});
+  console.log("returning ", details);
+  return {requestHeaders: details.requestHeaders};
+}
+
 //chrome.webRequest.onBeforeSendHeaders.addListener(
-//  async function(details) {
-//    let person = await fetch('https://swapi.co/api/people/2').
-//      then(person => person.json());
-//
-//    for (var i = 0; i < details.requestHeaders.length; ++i) {
-//      if (details.requestHeaders[i].name === 'User-Agent') {
-//        details.requestHeaders.splice(i, 1);
-//        break;
-//      }
-//    }
-//
-//    details.requestHeaders.push({name: 'User-Agent', value: person.name});
-//    let ret = {requestHeaders: details.requestHeaders};
-//    console.log("returning ", ret);
-//    return ret;
+//  function(details) {
+//    return formatHeaders(details);
 //  },
 //  {urls: ['*://papertrailapp.com/*']},
 //  ['blocking', 'requestHeaders']
@@ -71,4 +75,13 @@ chrome.webRequest.onAuthRequired.addListener(
 //  },
 //  {urls: ['<all_urls>']},
 //  ["requestBody"]
+//);
+
+//chrome.webRequest.onBeforeRequest.addListener(
+//  function(details) {
+//    console.log(details);
+//    return formatHeaders(details);
+//  },
+//  {urls: ['*://papertrailapp.com/*']},
+//  ['blocking']
 //);
